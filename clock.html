@@ -3,63 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Clock</title>
+    <title>Full Screen Clock</title>
     <style>
+        /* Black background and white text for the entire page */
         body {
             background-color: #000;
             color: #fff;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+        }
+
+        /* Center the clock both vertically and horizontally */
+        #clock-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
         }
 
+        /* Style the clock display */
         #clock {
-            font-size: 50vw; /* 50% of the viewport width */
-            font-weight: bold;
-            line-height: 1;
+            font-size: 20vh;  /* Font size is 90% of the viewport height */
+            white-space: nowrap; /* Prevents line wrapping */
+            text-align: center;
+            display: inline-block;
+            line-height: 1; /* Adjusts the line height for centering */
         }
     </style>
 </head>
 <body>
 
-    <div id="clock"></div>
+    <div id="clock-container">
+        <div id="clock"></div>
+    </div>
 
     <script>
-        function showTime() {
-            const date = new Date();
-            let hour = date.getHours();
-            let minutes = date.getMinutes();
-            let seconds = date.getSeconds();
-            let am_pm = "AM";
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
 
             // Convert to 12-hour format
-            if (hour >= 12) {
-                am_pm = "PM";
-                if (hour > 12) {
-                    hour -= 12;
-                }
-            } else if (hour === 0) {
-                hour = 12; // Midnight case
-            }
+            hours = hours % 12;
+            hours = hours ? hours : 12; // The hour '0' should be '12'
 
-            // Add leading zeros to single-digit minutes and seconds
-            hour = (hour < 10) ? "0" + hour : hour;
-            minutes = (minutes < 10) ? "0" + minutes : minutes;
-            seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-            const currentTime = hour + ":" + minutes + ":" + seconds + " " + am_pm;
-            document.getElementById('clock').innerHTML = currentTime;
+            const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById('clock').textContent = timeString;
         }
 
-        // Update the clock every second
-        setInterval(showTime, 1000);
-
-        // Initial call to display the time immediately
-        showTime();
+        // Update the clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
 
 </body>
