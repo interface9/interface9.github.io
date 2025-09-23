@@ -55,8 +55,6 @@
         // The hour '0' should be '12'
         hours = hours ? hours : 12; 
 
-        hours = hours.toString().padStart(2, '0');
-
         // Add a leading zero if the value is less than 10
         hours = hours < 10 ? '0' + hours : hours;
         minutes = minutes < 10 ? '0' + minutes : minutes;
