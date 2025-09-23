@@ -27,6 +27,12 @@
             line-height: 1; /* Adjust to ensure vertical centering */
         }
 
+        #currentDateTime {
+            font-weight: 600;
+            font-size: 50px; /* Use viewport width for sizing as a fallback */
+            line-height: 1; /* Adjust to ensure vertical centering */
+        }
+        
         /* Use a max size to prevent the font from becoming too large on wide screens */
         @media (min-width: 1000px) {
             #clock {
@@ -60,7 +66,8 @@
         minutes = minutes < 10 ? '0' + minutes : minutes;
         seconds = seconds < 10 ? '0' + seconds : seconds;
 
-        document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        //document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds;
     }
 
     // Call updateClock() immediately to avoid a delay on page load
