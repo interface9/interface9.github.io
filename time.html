@@ -39,6 +39,7 @@
 
 <div class="clock-container">
     <div id="clock"></div>
+    <p id="currentDateTime"></p>
 </div>
 
 <script>
@@ -66,6 +67,23 @@
 
     // Update the clock every second (1000 milliseconds)
     setInterval(updateClock, 1000);
+
+    function displayCurrentDateTime() {
+            const now = new Date();
+
+            const options = {
+                weekday: 'long', // Full weekday name (e.g., Monday)
+                year: 'numeric',
+                month: 'long',   // Full month name (e.g., September)
+                day: 'numeric'
+            };
+
+            const formattedDateTime = now.toLocaleDateString('en-US', options);
+            document.getElementById('currentDateTime').textContent = formattedDateTime;
+        }
+
+        // Call the function when the page loads
+        displayCurrentDateTime();
 </script>
 
 </body>
