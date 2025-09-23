@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Simple Clock</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            font-family: Arial, sans-serif;
+            display: table;
+            width: 100%;
+        }
+
+        .clock-container {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        #clock {
+            font-weight: bold;
+            font-size: 50vw; /* Use viewport width for sizing as a fallback */
+            line-height: 1; /* Adjust to ensure vertical centering */
+        }
+
+        /* Use a max size to prevent the font from becoming too large on wide screens */
+        @media (min-width: 1000px) {
+            #clock {
+                font-size: 50vh; /* Use viewport height on larger screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="clock-container">
+    <div id="clock"></div>
+</div>
+
+<script>
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+
+        // Convert to 12-hour format
+        hours = hours % 12;
+        // The hour '0' should be '12'
+        hours = hours ? hours : 12; 
+
+        // Add a leading zero if the value is less than 10
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm;
+    }
+
+    // Call updateClock() immediately to avoid a delay on page load
+    updateClock();
+
+    // Update the clock every second (1000 milliseconds)
+    setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
