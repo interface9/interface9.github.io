@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hello iPad</title>
+    <title>Hello World</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Ensures the content takes full viewport height */
-            font-family: sans-serif;
-            font-size: 10vw; /* Responsive font size */
-            color: #333;
-            background-color: #f0f0f0;
-            overflow: hidden; /* Prevent scrolling */
+            width: 100%;
+            height: 100%;
+            display: table; /* Use table display for vertical centering in old browsers */
+        }
+        p {
+            display: table-cell; /* Center content vertically */
+            vertical-align: middle;
+            text-align: center;
+            font-family: sans-serif; /* A common, widely supported font */
+            font-size: 5vw; /* Responsive font size */
+            color: black;
         }
     </style>
 </head>
 <body>
-    <div>Hello</div>
+    <p>Hello</p>
 </body>
 </html>
