@@ -1,26 +1,31 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Hello World</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            display: table; /* Use table display for vertical centering in old browsers */
-        }
-        p {
-            display: table-cell; /* Center content vertically */
-            vertical-align: middle;
-            text-align: center;
-            font-family: sans-serif; /* A common, widely supported font */
-            font-size: 100; /* Responsive font size */
-            color: black;
-        }
-    </style>
+<title>Hello</title>
+<style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    display: table; /* For vertical centering in old browsers */
+    width: 100%;
+    height: 100vh; /* Viewport height */
+    text-align: center; /* Horizontal centering */
+    font-family: sans-serif; /* A common, safe font */
+  }
+  div {
+    display: table-cell; /* For vertical centering in old browsers */
+    vertical-align: middle;
+  }
+  p {
+    font-size: 15vw; /* Large font size relative to viewport width */
+    font-weight: bold;
+    margin: 0; /* Remove default paragraph margins */
+  }
+</style>
 </head>
 <body>
+  <div>
     <p>Hello</p>
+  </div>
 </body>
 </html>
