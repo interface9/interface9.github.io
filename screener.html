@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Market Overview</title>
+    <title>Full Height Page</title>
     <style>
-	    html {
-	        height: 100%;
-	        margin: 0;
-	        padding: 0;			
-	    }
-		body {
-	        font-family: sans-serif;
-	        background-color: #000;
-	        min-width: 100%;
-	        min-height: 100%;        
-	        margin: 0;
-	        padding: 10px;			
-			min-height: 100vh; /* 100vh equals 100% of the viewport height */
-	   }
-    </style>
-  </head>
-  <body>        
-    
-    <!-- TradingView Widget BEGIN -->
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
-      {
-      "market": "america",
-      "showToolbar": true,
-      "defaultColumn": "overview",
-      "defaultScreen": "most_capitalized",
-      "isTransparent": false,
-      "locale": "en",
-      "colorTheme": "dark",
-      "width": "100%",
-      "height": "100%"
-    }
-      </script>
-    </div>
-    <!-- TradingView Widget END -->
+        /* Reset default browser margins and paddings */
+        body, html {
+            margin: 0;
+            padding: 0;
+            /* Ensure the html element also takes full height */
+            height: 100%; 
+        }
 
-  </body>
+        body {
+            /* Set minimum height to 100% of the viewport height */
+            min-height: 100vh; 
+            font-family: Arial, sans-serif;
+            display: flex; /* Use flexbox for easy content centering/layout */
+            flex-direction: column; /* Stack content vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .content-wrapper {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1>Welcome to a Full Height Page!</h1>
+        <p>This page is designed to always occupy the full height of your browser window, regardless of content length (unless content exceeds viewport height, in which case it will scroll).</p>
+        <p>You can add more content here, and the page will expand if necessary.</p>
+
+
+		<!-- TradingView Widget BEGIN -->
+		<div class="tradingview-widget-container">
+		  <div class="tradingview-widget-container__widget"></div>
+		  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+		  {
+		  "market": "america",
+		  "showToolbar": true,
+		  "defaultColumn": "overview",
+		  "defaultScreen": "most_capitalized",
+		  "isTransparent": false,
+		  "locale": "en",
+		  "colorTheme": "dark",
+		  "width": "100%",
+		  "height": "100%"
+		}
+		  </script>
+		</div>
+		<!-- TradingView Widget END -->		
+
+	
+	</div>
+</body>
 </html>
