@@ -146,13 +146,18 @@ button:hover {
 
     
      <div class="button-container">
+        <button id="buttonScreener">Screener</button>
         <button id="buttonStockList">Stock List</button>
         <button id="buttonStockDetails">Stock Details</button>
         <button id="buttonDetails">TSLA Info</button>
 
        <script type="text/javascript">
          
-          document.getElementById('buttonStockList').addEventListener('click', function() {
+          document.getElementById('buttonScreener').addEventListener('click', function() {
+            window.location.href = "https://interface9.github.io/screener.html";
+          });
+
+         document.getElementById('buttonStockList').addEventListener('click', function() {
             window.location.href = "https://interface9.github.io/tickers.html";
           });
 
