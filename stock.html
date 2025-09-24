@@ -396,5 +396,17 @@
 			</p>
 		</footer>
 	</body>
-	<script></script>
+	<script>
+		function getQueryParam(param) {
+			let urlSearchParams = new URLSearchParams(window.location.search);
+			return urlSearchParams.get(param);
+		}
+		function readSymbolFromQueryString() {
+			return getQueryParam('tvwidgetsymbol');
+		}
+		const symbol = readSymbolFromQueryString() || 'NASDAQ:AAPL';
+		if (symbol) {
+			document.title = `Stock Details - ${symbol}`;
+		}
+	</script>
 </html>
