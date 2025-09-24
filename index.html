@@ -52,6 +52,7 @@
 
 <div class="clock-container">
     <div id="clock"></div>
+    <p id="weekdayDisplay"></p>
     <p id="currentDateTime"></p>
 </div>
     
@@ -84,10 +85,16 @@
     setInterval(updateClock, 1000);
 
     function displayCurrentDateTime() {
+            var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
             const now = new Date();
 
+            var dayNum = now.getDay();
+            var currentDay = weekday[dayNum];
+            document.getElementById("weekdayDisplay").innerHTML = currentDay;
+
             const options = {
-                weekday: 'long', // Full weekday name (e.g., Monday)
+                //weekday: 'long', // Full weekday name (e.g., Monday)
                 year: 'numeric',
                 month: 'long',   // Full month name (e.g., September)
                 day: 'numeric'
