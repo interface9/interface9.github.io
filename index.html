@@ -34,6 +34,12 @@
             line-height: 1; /* Adjust to ensure vertical centering */
         }
 
+        #weekdayDisplay {
+            font-weight: 600;
+            font-size: 50px; /* Use viewport width for sizing as a fallback */
+            line-height: 1; /* Adjust to ensure vertical centering */
+        }
+        
         #currentDateTime {
             font-weight: 600;
             font-size: 50px; /* Use viewport width for sizing as a fallback */
@@ -51,9 +57,9 @@
 <body>
 
 <div class="clock-container">
+    <p id="currentDateTime"></p>
     <div id="clock"></div>
     <p id="weekdayDisplay"></p>
-    <p id="currentDateTime"></p>
 </div>
     
 <script>
