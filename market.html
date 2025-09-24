@@ -146,6 +146,7 @@ button:hover {
 
     
      <div class="button-container">
+        <button id="buttonClock">Clock</button>
         <button id="buttonScreener">Screener</button>
         <button id="buttonStockList">Stock List</button>
         <button id="buttonStockDetails">Stock Details</button>
@@ -153,7 +154,11 @@ button:hover {
 
        <script type="text/javascript">
          
-          document.getElementById('buttonScreener').addEventListener('click', function() {
+          document.getElementById('buttonClock').addEventListener('click', function() {
+            window.location.href = "https://interface9.github.io";
+          });
+
+         document.getElementById('buttonScreener').addEventListener('click', function() {
             window.location.href = "https://interface9.github.io/screener.html";
           });
 
