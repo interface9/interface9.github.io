@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Ticker Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f3fb;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2a3a54;
+        }
+        .ticker-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stock Ticker Dashboard</h1>
+    <div class="container">
+
+        <!-- TSLA Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:TSLA",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- AAPL Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:AAPL",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- MSFT Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:MSFT",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- GOOG Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:GOOG",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- NVDA Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:NVDA",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- NFLX Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:NFLX",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+        
+        <!-- META Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:META",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+        <!-- AMZN Widget -->
+        <div class="ticker-card">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "NASDAQ:AMZN",
+                "width": "100%",
+                "isTransparent": false,
+                "colorTheme": "light",
+                "locale": "en"
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+        </div>
+
+    </div>
+</body>
+</html>
