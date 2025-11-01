@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -10,36 +11,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 
-    <title>Time</title>
+    <title>Very Old Browser Compatible Table</title>
     <style>
-        body,
+        /* 
+    Optional basic CSS for demonstration purposes only.
+    The layout relies entirely on HTML attributes. 
+*/
         html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
             background-color: #000;
-            /* Black background */
             color: #fff;
-            /* White text */
             font-family: 'Archivo Black', Verdana, 'Montserrat', 'Segoe UI', Tahoma, Geneva, sans-serif;
             font-style: normal;
-            display: table;
         }
+
+        body {
+            margin: 0;
+            /* Ensures no default margin is applied by the browser */
+        }
+
 
         .clock-container {
             display: table-cell;
             vertical-align: middle;
-            text-align: center;
         }
-        
+
         #weekdayDisplay {
             font-variant: small-caps;
             font-style: italic;
             font-size: 50px;
-            /* Use viewport width for sizing as a fallback */
             line-height: 1;
-            /* Adjust to ensure vertical centering */
             color: #999999;
             text-align: left;
             padding-left: 40px;
@@ -50,65 +50,91 @@
             font-style: italic;
             font-weight: normal;
             font-size: 50px;
-            /* Use viewport width for sizing as a fallback */
             line-height: 1;
-            /* Adjust to ensure vertical centering */
             color: #999999;
             text-align: right;
             padding-right: 40px;
         }
 
-        #clock {
-          position: relative;
+        #the-clock {
+            position: relative;
+            text-align: center;
         }
-        
+
+        #clock {
+            position: relative;
+            width: 710px;
+            height: 200px;
+        }
+
         #time {
             font-weight: bolder;
-            font-size: 220px;
-            /* Use viewport width for sizing as a fallback */
+            font-size: 190px;
             line-height: 1;
-            /* Adjust to ensure vertical centering */
         }
 
         #seconds {
             position: absolute;
-            font-size: 100px;
-            left: 840px;
+            font-weight: bolder;
+            font-size: 80px;
+            left: 660px;
             top: 10px;
             color: #e06666;
         }
 
         #ampm {
+            position: absolute;
             font-weight: lighter;
-            font-size: 50px;
-            /* Use viewport width for sizing as a fallback */
+            font-size: 64px;
             line-height: 1;
-            /* Adjust to ensure vertical centering */
-            color: #999999;
+            left: 660px;
+            top: 100px;
+            color: #e06666;
         }
-
-        /* Use a max size to prevent the font from becoming too large on wide screens */
-        /*
-        @media (min-width: 1000px) {
-            #time {
-                font-size: 30vh; 
-            }
-        }
-        */
     </style>
 </head>
 
 <body>
 
-    <div class="clock-container">
-        <p id="weekdayDisplay"></p>
-        <div id="clock">
-            <span id="time"></span>
-            <span id="ampm"></span>
-            <span id="seconds"></span>
-        </div>
-        <p id="dateDisplay"></p>
-    </div>
+    <!-- The <center> tag is an old, universally supported way to center content horizontally -->
+    <center>
+
+        <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+
+            <tr>
+                <!-- This outer cell uses 'valign="middle"' to center the inner table vertically relative to the screen -->
+                <td align="center" valign="middle">
+
+                    <!-- This is the inner table containing the three rows of text -->
+                    <table width="100%" border="0" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <!-- 'align' attribute sets horizontal alignment, 'valign' sets vertical alignment -->
+                            <td align="left" valign="top">
+                                <p id="weekdayDisplay"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" valign="top">
+                                <div id="clock">
+                                    <span id="time"></span>
+                                    <span id="ampm"></span>
+                                    <span id="seconds"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">
+                                <p id="dateDisplay"></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </table>
+
+    </center>
+
 
     <script>
         function updateClock() {
@@ -128,7 +154,7 @@
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
 
-            document.getElementById('time').innerHTML = hours + ":" + minutes ; // + ":" + seconds;
+            document.getElementById('time').innerHTML = hours + ":" + minutes; // + ":" + seconds;
             document.getElementById('ampm').innerHTML = ampm;
             document.getElementById('seconds').innerHTML = seconds;
         }
@@ -161,6 +187,7 @@
         setInterval(updateClock, 1000);
         setInterval(displayCurrentDateTime, 1000);
     </script>
+
 
 </body>
 
