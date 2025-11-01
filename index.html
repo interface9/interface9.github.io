@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -11,23 +10,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 
-    <title>Very Old Browser Compatible Table</title>
+    <title>Vertically Centered Table (Old Browser Fix)</title>
     <style>
         /* 
-    Optional basic CSS for demonstration purposes only.
-    The layout relies entirely on HTML attributes. 
+    Crucial CSS for very old browsers: 
+    Ensures HTML and BODY elements take up full height/width.
+    These simple rules are highly compatible.
 */
-        html {
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             background-color: #000;
             color: #fff;
             font-family: 'Archivo Black', Verdana, 'Montserrat', 'Segoe UI', Tahoma, Geneva, sans-serif;
             font-style: normal;
         }
 
-        body {
-            margin: 0;
-            /* Ensures no default margin is applied by the browser */
+        /* Optional styling for visibility */
+        table {
+            border-collapse: collapse;
         }
+
+        td {
+            padding: 5px;
+            /* Add some padding so text isn't stuck to border */
+        }
+
 
 
         .clock-container {
@@ -96,44 +107,42 @@
 
 <body>
 
-    <!-- The <center> tag is an old, universally supported way to center content horizontally -->
-    <center>
+    <!-- Main layout table that spans the entire viewport -->
+    <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <!-- This single cell aligns its content (the inner table) vertically to the middle -->
+            <td align="center" valign="middle">
 
-        <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+                <!-- This is the inner table with your specific requirements -->
+                <table width="100%" border="0">
+                    <tr>
+                        <td align="left">
+                            <p id="weekdayDisplay"></p>
 
-            <tr>
-                <!-- This outer cell uses 'valign="middle"' to center the inner table vertically relative to the screen -->
-                <td align="center" valign="middle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <div id="clock">
+                                <span id="time"></span>
+                                <span id="ampm"></span>
+                                <span id="seconds"></span>
+                            </div>
 
-                    <!-- This is the inner table containing the three rows of text -->
-                    <table width="100%" border="0" cellpadding="5" cellspacing="0">
-                        <tr>
-                            <!-- 'align' attribute sets horizontal alignment, 'valign' sets vertical alignment -->
-                            <td align="left" valign="top">
-                                <p id="weekdayDisplay"></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="center" valign="top">
-                                <div id="clock">
-                                    <span id="time"></span>
-                                    <span id="ampm"></span>
-                                    <span id="seconds"></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right" valign="top">
-                                <p id="dateDisplay"></p>
-                            </td>
-                        </tr>
-                    </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <p id="dateDisplay"></p>
 
-                </td>
-            </tr>
-        </table>
+                        </td>
+                    </tr>
+                </table>
 
-    </center>
+            </td>
+        </tr>
+    </table>
+
 
 
     <script>
