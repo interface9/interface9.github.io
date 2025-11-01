@@ -88,7 +88,7 @@
             position: absolute;
             font-weight: bolder;
             font-size: 80px;
-            left: 660px;
+            left: 620px;
             top: 10px;
             color: #e06666;
         }
@@ -98,7 +98,7 @@
             font-weight: lighter;
             font-size: 64px;
             line-height: 1;
-            left: 660px;
+            left: 620px;
             top: 100px;
             color: #e06666;
         }
@@ -163,7 +163,7 @@
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
 
-            document.getElementById('time').innerHTML = hours + ":" + minutes; // + ":" + seconds;
+            document.getElementById('time').innerHTML = hours + ":" + minutes + "&nbsp;"; // + ":" + seconds;
             document.getElementById('ampm').innerHTML = ampm;
             document.getElementById('seconds').innerHTML = seconds;
         }
