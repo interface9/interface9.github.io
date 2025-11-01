@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-    
+
     <title>Time</title>
     <style>
-        body, html {
+        body,
+        html {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            /* Black background */
+            color: #fff;
+            /* White text */
             font-family: 'Archivo Black', Verdana, 'Montserrat', 'Segoe UI', Tahoma, Geneva, sans-serif;
             font-style: normal;
             display: table;
@@ -28,88 +32,108 @@
             vertical-align: middle;
             text-align: center;
         }
-
-        #clock {
-            font-weight: bolder;
-            font-size: 170px; /* Use viewport width for sizing as a fallback */
-            line-height: 1; /* Adjust to ensure vertical centering */
-        }
-
-        #ampm {
-            font-weight: lighter;
-            font-size: 50px; /* Use viewport width for sizing as a fallback */
-            line-height: 1; /* Adjust to ensure vertical centering */
-            color: #e06666;
-        }
-
+        
         #weekdayDisplay {
             font-variant: small-caps;
             font-style: italic;
-            font-size: 50px; /* Use viewport width for sizing as a fallback */
-            line-height: 1; /* Adjust to ensure vertical centering */
+            font-size: 50px;
+            /* Use viewport width for sizing as a fallback */
+            line-height: 1;
+            /* Adjust to ensure vertical centering */
             color: #999999;
             text-align: left;
             padding-left: 40px;
         }
-        
+
         #dateDisplay {
             font-variant: small-caps;
             font-style: italic;
             font-weight: normal;
-            font-size: 50px; /* Use viewport width for sizing as a fallback */
-            line-height: 1; /* Adjust to ensure vertical centering */
+            font-size: 50px;
+            /* Use viewport width for sizing as a fallback */
+            line-height: 1;
+            /* Adjust to ensure vertical centering */
             color: #999999;
             text-align: right;
             padding-right: 40px;
         }
+
+        #clock {
+          position: relative;
+        }
         
+        #time {
+            font-weight: bolder;
+            font-size: 220px;
+            /* Use viewport width for sizing as a fallback */
+            line-height: 1;
+            /* Adjust to ensure vertical centering */
+        }
+
+        #seconds {
+            position: absolute;
+            font-size: 100px;
+            left: 840px;
+            top: 10px;
+            color: #e06666;
+        }
+
+        #ampm {
+            font-weight: lighter;
+            font-size: 50px;
+            /* Use viewport width for sizing as a fallback */
+            line-height: 1;
+            /* Adjust to ensure vertical centering */
+            color: #999999;
+        }
+
         /* Use a max size to prevent the font from becoming too large on wide screens */
         /*
         @media (min-width: 1000px) {
-            #clock {
+            #time {
                 font-size: 30vh; 
             }
         }
         */
     </style>
 </head>
+
 <body>
 
-<div class="clock-container">
-    <p id="weekdayDisplay"></p>
-    <div><span id="clock"></span><span id="ampm"></span></div>
-    <p id="dateDisplay"></p>
-</div>
-    
-<script>
-    function updateClock() {
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        var ampm = hours >= 12 ? 'pm' : 'am';
+    <div class="clock-container">
+        <p id="weekdayDisplay"></p>
+        <div id="clock">
+            <span id="time"></span>
+            <span id="ampm"></span>
+            <span id="seconds"></span>
+        </div>
+        <p id="dateDisplay"></p>
+    </div>
 
-        // Convert to 12-hour format
-        hours = hours % 12;
-        // The hour '0' should be '12'
-        hours = hours ? hours : 12; 
+    <script>
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var ampm = hours >= 12 ? 'pm' : 'am';
 
-        // Add a leading zero if the value is less than 10
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
+            // Convert to 12-hour format
+            hours = hours % 12;
+            // The hour '0' should be '12'
+            hours = hours ? hours : 12;
 
-        document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds;
-        document.getElementById('ampm').innerHTML = ampm;
-    }
+            // Add a leading zero if the value is less than 10
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
 
-    // Call updateClock() immediately to avoid a delay on page load
-    updateClock();
+            document.getElementById('time').innerHTML = hours + ":" + minutes ; // + ":" + seconds;
+            document.getElementById('ampm').innerHTML = ampm;
+            document.getElementById('seconds').innerHTML = seconds;
+        }
 
-    // Update the clock every second (1000 milliseconds)
-    setInterval(updateClock, 1000);
-
-    function displayCurrentDateTime() {
+        function displayCurrentDateTime() {
             var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
             const now = new Date();
@@ -129,9 +153,15 @@
             document.getElementById('dateDisplay').textContent = formattedDateTime;
         }
 
-        // Call the function when the page loads
+        // Call updateClock() immediately to avoid a delay on page load
+        updateClock();
         displayCurrentDateTime();
-</script>
+
+        // Update the clock every second (1000 milliseconds)
+        setInterval(updateClock, 1000);
+        setInterval(displayCurrentDateTime, 1000);
+    </script>
 
 </body>
+
 </html>
