@@ -74,21 +74,22 @@
 
         #clock {
             position: relative;
-            width: 710px;
-            height: 200px;
+            width: 960px;
+            height: 260px;
+            background-color: #000;
         }
 
         #time {
             font-weight: bolder;
-            font-size: 190px;
+            font-size: 250px;
             line-height: 1;
         }
 
         #seconds {
             position: absolute;
             font-weight: bolder;
-            font-size: 80px;
-            left: 620px;
+            font-size: 100px;
+            left: 800px;
             top: 10px;
             color: #e06666;
         }
@@ -96,11 +97,11 @@
         #ampm {
             position: absolute;
             font-weight: lighter;
-            font-size: 64px;
+            font-size: 80px;
             line-height: 1;
-            left: 620px;
-            top: 100px;
-            color: #e06666;
+            left: 800px;
+            top: 140px;
+            color: #fff;
         }
     </style>
 </head>
@@ -151,7 +152,7 @@
             var hours = now.getHours();
             var minutes = now.getMinutes();
             var seconds = now.getSeconds();
-            var ampm = hours >= 12 ? 'pm' : 'am';
+            var ampm = hours >= 12 ? 'PM' : 'AM';
 
             // Convert to 12-hour format
             hours = hours % 12;
@@ -163,7 +164,7 @@
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
 
-            document.getElementById('time').innerHTML = hours + ":" + minutes + "&nbsp;"; // + ":" + seconds;
+            document.getElementById('time').innerHTML = hours + ":" + minutes + "&nbsp;&nbsp;"; // + ":" + seconds;
             document.getElementById('ampm').innerHTML = ampm;
             document.getElementById('seconds').innerHTML = seconds;
         }
