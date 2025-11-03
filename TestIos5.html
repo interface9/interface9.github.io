@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS 5.1.1 HTTP Request</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #output { border: 1px solid #ccc; padding: 10px; min-height: 50px; background-color: #f9f9f9; }
+        button { padding: 10px 15px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>HTTP Request for iOS 5.1.1</h1>
+    <button onclick="makeRequest()">Make HTTP Request</button>
+    <p>Response:</p>
+    <div id="output"></div>
+
+    <script>
+        function makeRequest() {
+            var xhr = new XMLHttpRequest();
+
+            // var url = 'https://jsonplaceholder.typicode.com/todos/1'; // Example public API
+            var latitude = 39.0438; // Ashburn, VA Latitude
+            var longitude = -77.4874; // Ashburn, VA Longitude
+            var url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&temperature_unit=fahrenheit&wind_speed_unit=mph&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&forecast_days=1`;
+
+            xhr.open('GET', url, true); // true for asynchronous request
+
+            xhr.onreadystatechange = function () {
+                var outputDiv = document.getElementById('output');
+                if (xhr.readyState === 4) { // Request finished and response is ready
+                    if (xhr.status === 200) { // HTTP status code 200 means OK
+                        outputDiv.innerHTML = 'Success! Response: ' + xhr.responseText;
+                    } else {
+                        outputDiv.innerHTML = 'Error! Status: ' + xhr.status + ' - ' + xhr.statusText;
+                    }
+                } else {
+                    outputDiv.innerHTML = 'Loading... (ReadyState: ' + xhr.readyState + ')';
+                }
+            };
+
+            xhr.onerror = function () {
+                document.getElementById('output').innerHTML = 'Network error occurred.';
+            };
+
+            xhr.send(); // Send the request
+        }
+    </script>
+</body>
+</html>
