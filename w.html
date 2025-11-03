@@ -28,7 +28,7 @@
             var xhr = new XMLHttpRequest();
             var outputElement = document.getElementById('weather-output');
 
-            xhr.open('GET', api_url, true); // true for asynchronous request
+            xhr.open('GET', api_url, false); // true for asynchronous request
 
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 400) {
