@@ -88,7 +88,7 @@
                     return "Unknown";
                 }
 
-                document.getElementById('weather').src = "icons/" + getWeatherConditions(weatherCode) + ".svg";
+                document.getElementById('weather').src = "png/" + getWeatherConditions(weatherCode) + ".png";
 
                 document.getElementById('temperature').textContent = `${temperature}° F`;
                 document.getElementById('conditions').textContent = getWeatherConditions(weatherCode);
