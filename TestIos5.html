@@ -20,11 +20,12 @@
         function makeRequest() {
             var xhr = new XMLHttpRequest();
 
-            var url = 'https://jsonplaceholder.typicode.com/todos/1'; // Example public API
+            // var url = 'https://jsonplaceholder.typicode.com/todos/1'; // Example public API
             
             var latitude = 39.0438; // Ashburn, VA Latitude
             var longitude = -77.4874; // Ashburn, VA Longitude
             // var url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&temperature_unit=fahrenheit&wind_speed_unit=mph&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&forecast_days=1`;
+            var url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`;
 
             xhr.open('GET', url, true); // true for asynchronous request
 
@@ -51,3 +52,4 @@
 </body>
 
 </html>
+
