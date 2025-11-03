@@ -85,7 +85,7 @@
 
         function fetchWeather() {
             var xhr = new XMLHttpRequest();
-            var outputElement = document.getElementById('weather-output');
+            var outputElement = document.getElementById('weather-location');
 
             xhr.open('GET', apiUrl, true); // true for asynchronous request
 
@@ -147,5 +147,6 @@
         fetchWeather();
     </script>
 </body>
+
 
 </html>
