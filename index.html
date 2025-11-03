@@ -40,6 +40,42 @@
         }
 
 
+        .weather-info {
+            left: 750px;
+            top: 100px;
+            position: relative;
+            background-color: black;
+            width: 240px;
+            height: 100px;
+            border: 1px;
+            border-color: white;
+            border-style: solid;
+        }
+
+        .weather-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        #conditions {
+            position: absolute;
+            left: 100px;
+            top: 10px;
+        }
+
+        #temperature {
+            position: absolute;
+            left: 100px;
+            top: 40px;
+        }
+
+        #wind {
+            position: absolute;
+            left: 100px;
+            top: 70px;
+        }
+
+
 
         .clock-container {
             display: table-cell;
@@ -118,7 +154,15 @@
                 <table width="100%" border="0">
                     <tr>
                         <td align="left">
-                            <p id="weekdayDisplay"></p>
+
+                            <div class="weather-info">        
+                                <img class="weather-icon" id="weather"></img>
+                                <div id="conditions">Loading...</div>
+                                <div id="temperature">Loading...</div>
+                                <div id="wind"><span id="windSpeed">Loading...</span> (<span id="windDirection">Loading...</span>)</div>
+                            </div>
+
+                            <p id="weekdayDisplay"></p>                        
 
                         </td>
                     </tr>
@@ -196,6 +240,57 @@
         // Update the clock every second (1000 milliseconds)
         setInterval(updateClock, 1000);
         setInterval(displayCurrentDateTime, 1000);
+
+        // Weather
+
+        const latitude = 39.0438; // Ashburn, VA Latitude
+        const longitude = -77.4874; // Ashburn, VA Longitude
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&temperature_unit=fahrenheit&wind_speed_unit=mph&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&forecast_days=1`;
+
+        async function getWeatherData() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                const current = data.current;
+                const temperature = current.temperature_2m;
+                const weatherCode = current.weathercode;
+                const windSpeed = current.windspeed_10m;    
+                const windDirection = current.winddirection_10m;
+
+                // Map Open-Meteo weather codes to descriptive conditions
+                function getWeatherConditions(code) {
+                    if (code >= 0 && code <= 3) return "Sunny"; // Clear sky, mainly clear, partly cloudy, overcast
+                    if (code >= 45 && code <= 48) return "Foggy"; // Fog, depositing rime fog
+                    if (code >= 51 && code <= 57) return "Drizzle"; // Drizzle: Light, moderate, dense intensity
+                    if (code >= 61 && code <= 67) return "Rainy"; // Rain: Light, moderate, heavy intensity
+                    if (code >= 71 && code <= 77) return "Snowy"; // Snow fall: Light, moderate, heavy intensity
+                    if (code >= 80 && code <= 82) return "Rainy"; // Rain showers: Light, moderate, violent
+                    if (code >= 85 && code <= 86) return "Snowy"; // Snow showers: Light, heavy
+                    if (code >= 95 && code <= 96) return "Thunderstorm"; // Thunderstorm: Slight or moderate
+                    if (code === 99) return "Thunderstorm"; // Thunderstorm with slight and heavy hail
+                    return "Unknown";
+                }
+
+                document.getElementById('weather').src = "icons/" + getWeatherConditions(weatherCode) + ".svg";
+
+                document.getElementById('temperature').textContent = `${temperature}° F`;
+                document.getElementById('conditions').textContent = getWeatherConditions(weatherCode);
+                document.getElementById('windSpeed').textContent = `${windSpeed} mph`;
+                document.getElementById('windDirection').textContent = `${windDirection}°`; // You might want to convert this to cardinal directions
+
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+                document.getElementById('temperature').textContent = "Error fetching data.";
+                document.getElementById('conditions').textContent = "Error fetching data.";
+                document.getElementById('windSpeed').textContent = "Error fetching data.";
+                document.getElementById('windDirection').textContent = "Error fetching data.";
+            }
+        }
+
+        getWeatherData();
+        setInterval(getWeatherData, 60000*60);  // every hour
+
     </script>
 
 
