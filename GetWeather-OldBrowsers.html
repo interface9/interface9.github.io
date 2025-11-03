@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashburn Weather</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: black;
+            color: white;
+        }
+
+        .weather-location {
+            left: 700px;
+            top: 10px;
+            position: relative;
+            background-color: black;
+            width: 230px;
+            height: 20px;
+        }
+
+        .weather-info {
+            left: 700px;
+            top: 10px;
+            position: relative;
+            background-color: black;
+            width: 230px;
+            height: 100px;
+            border: 1px;
+            border-color: white;
+            border-style: solid;
+        }
+
+        .weather-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        #conditions {
+            position: absolute;
+            left: 100px;
+            top: 10px;
+        }
+
+        #temperature {
+            position: absolute;
+            left: 100px;
+            top: 40px;
+        }
+
+        #wind {
+            position: absolute;
+            left: 100px;
+            top: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <div class="weather-location">Weather in Ashburn</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="weather-info">        
+                    <img class="weather-icon" id="weather"></img>
+                    <div id="conditions">Loading...</div>
+                    <div id="temperature">Loading...</div>
+                    <div id="wind"><span id="windSpeed">Loading...</span> (<span id="windDirection">Loading...</span>)</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        const latitude = 39.0438; // Ashburn, VA Latitude
+        const longitude = -77.4874; // Ashburn, VA Longitude
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&temperature_unit=fahrenheit&wind_speed_unit=mph&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&forecast_days=1`;
+
+        function fetchWeather() {
+            var xhr = new XMLHttpRequest();
+            var outputElement = document.getElementById('weather-output');
+
+            xhr.open('GET', apiUrl, true); // true for asynchronous request
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // Success!
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        var temperature = data.current.temperature_2m;
+                        var unit = data.current_units.temperature_2m;
+                        var weatherCode = data.current.weathercode;
+                        var windSpeed = data.current.windspeed_10m;    
+                        var windDirection = data.current.winddirection_10m;
+
+                        // Map Open-Meteo weather codes to descriptive conditions
+                        function getWeatherConditions(code) {
+                            if (code >= 0 && code <= 3) return "Sunny"; // Clear sky, mainly clear, partly cloudy, overcast
+                            if (code >= 45 && code <= 48) return "Foggy"; // Fog, depositing rime fog
+                            if (code >= 51 && code <= 57) return "Drizzle"; // Drizzle: Light, moderate, dense intensity
+                            if (code >= 61 && code <= 67) return "Rainy"; // Rain: Light, moderate, heavy intensity
+                            if (code >= 71 && code <= 77) return "Snowy"; // Snow fall: Light, moderate, heavy intensity
+                            if (code >= 80 && code <= 82) return "Rainy"; // Rain showers: Light, moderate, violent
+                            if (code >= 85 && code <= 86) return "Snowy"; // Snow showers: Light, heavy
+                            if (code >= 95 && code <= 96) return "Thunderstorm"; // Thunderstorm: Slight or moderate
+                            if (code === 99) return "Thunderstorm"; // Thunderstorm with slight and heavy hail
+                            return "Unknown";
+                        }
+
+
+                        document.getElementById('weather').src = "png/" + getWeatherConditions(weatherCode) + ".png";
+
+                        document.getElementById('temperature').innerHTML = `${temperature}° F`;
+                        document.getElementById('conditions').innerHTML = getWeatherConditions(weatherCode);
+                        document.getElementById('windSpeed').innerHTML = `${windSpeed} mph`;
+                        document.getElementById('windDirection').innerHTML = `${windDirection}°`; // You might want to convert this to cardinal directions
+
+                    } catch (e) {
+                        // Handle JSON parsing errors
+                        outputElement.className = 'error';
+                        outputElement.innerHTML = 'Error parsing weather data.';
+                    }
+                } else {
+                    // We reached our target server, but it returned an error
+                    outputElement.className = 'error';
+                    outputElement.innerHTML = 'Server error: ' + xhr.status;
+                }
+            };
+
+            xhr.onerror = function () {
+                // There was a connection error of some sort
+                outputElement.className = 'error';
+                outputElement.innerHTML = 'Connection error. Could not fetch data.';
+            };
+
+            // Send the request
+            xhr.send();
+        }
+
+        fetchWeather();
+    </script>
+</body>
+
+</html>
