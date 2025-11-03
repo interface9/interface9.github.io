@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ashburn VA Weather</title>
+    <style>
+        body { font-family: sans-serif; max-width: 400px; margin: auto; padding: 20px; }
+        .weather-info { font-size: 2em; font-weight: bold; color: #333; }
+        .loading { color: gray; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>Current Temperature in Ashburn, VA</h1>
+    <div id="weather-output" class="loading">Fetching weather data...</div>
+
+    <script>
+        // Coordinates for Ashburn, VA
+        // Latitude: 39.0438
+        // Longitude: -77.4874
+        var latitude = 39.0438;
+        var longitude = -77.4874;
+        var api_url = 'https://api.open-meteo.com/v1/forecast?latitude=' + latitude + '&longitude=' + longitude + '&current=temperature_2m,weather_code&temperature_unit=fahrenheit&forecast_days=1';
+
+        // Function to fetch the weather data using XMLHttpRequest
+        function fetchWeather() {
+            var xhr = new XMLHttpRequest();
+            var outputElement = document.getElementById('weather-output');
+
+            xhr.open('GET', api_url, true); // true for asynchronous request
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // Success!
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        var temperature = data.current.temperature_2m;
+                        var unit = data.current_units.temperature_2m;
+
+                        // Update the DOM with the temperature
+                        outputElement.className = 'weather-info';
+                        outputElement.innerHTML = temperature + unit;
+
+                    } catch (e) {
+                        // Handle JSON parsing errors
+                        outputElement.className = 'error';
+                        outputElement.innerHTML = 'Error parsing weather data.';
+                    }
+                } else {
+                    // We reached our target server, but it returned an error
+                    outputElement.className = 'error';
+                    outputElement.innerHTML = 'Server error: ' + xhr.status;
+                }
+            };
+
+            xhr.onerror = function () {
+                // There was a connection error of some sort
+                outputElement.className = 'error';
+                outputElement.innerHTML = 'Connection error. Could not fetch data.';
+            };
+
+            // Send the request
+            xhr.send();
+        }
+
+        // Call the function to get the weather when the page loads
+        fetchWeather();
+    </script>
+
+</body>
+</html>
