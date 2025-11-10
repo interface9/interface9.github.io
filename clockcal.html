@@ -110,19 +110,16 @@
             height: 160px; 
             padding: 5px; 
             box-sizing: border-box; 
-            display: flex;
             flex-direction: column;
             overflow: hidden; 
             box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Added shadow for depth in dark mode */
 
             position: absolute;
             left: 760px;
-            top: 60px;
+            top: 40px;
         }
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
             font-size: 0.8em; 
             margin-bottom: 5px;
             color: #e0e0e0; /* Light color for header text */
@@ -170,9 +167,9 @@
 
     <div class="calendar">
         <div class="header">
-            <button onclick="changeMonth(-1)">&lt;</button>
+            <span><button onclick="changeMonth(-1)">&lt;</button></span>
             <span id="month-year">Month Year</span>
-            <button onclick="changeMonth(1)">&gt;</button>
+            <span><button onclick="changeMonth(1)">&gt;</button></span>
         </div>
         <table id="cal">
             <thead>
