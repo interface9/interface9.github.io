@@ -250,7 +250,7 @@
 
             var dayNum = now.getDay();
             var currentDay = weekday[dayNum];
-            document.getElementById("weekdayDisplay").innerHTML = currentDay;
+            document.getElementById("weekdayDisplay").innerHTML = currentDay; // + ". LastRun => " + now.toLocaleTimeString();
 
             const options = {
                 //weekday: 'long', // Full weekday name (e.g., Monday)
@@ -270,7 +270,7 @@
         // Update the clock every second (1000 milliseconds)
         setInterval(updateClock, 1000);
         // Update the date every 1 hour
-        setInterval(renderCadisplayCurrentDateTimelendar, 1000*60*60*1);       
+        setInterval(displayCurrentDateTime, 1000*60*60*1);       
     </script>
 
 
