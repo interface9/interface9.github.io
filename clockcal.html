@@ -231,6 +231,11 @@
             // Convert to 12-hour format
             hours = hours % 12;
             // The hour '0' should be '12'
+            if (hours == 0)
+            {
+                displayCurrentDateTime();
+                renderCalendar();
+            }
             hours = hours ? hours : 12;
 
             // Add a leading zero if the value is less than 10
@@ -250,7 +255,8 @@
 
             var dayNum = now.getDay();
             var currentDay = weekday[dayNum];
-            document.getElementById("weekdayDisplay").innerHTML = currentDay; // + ". LastRun => " + now.toLocaleTimeString();
+            document.getElementById("weekdayDisplay").innerHTML = currentDay;
+            // document.getElementById("weekdayDisplay").innerHTML = currentDay + ". " + now.toLocaleTimeString();
 
             const options = {
                 //weekday: 'long', // Full weekday name (e.g., Monday)
@@ -270,24 +276,23 @@
         // Update the clock every second (1000 milliseconds)
         setInterval(updateClock, 1000);
         // Update the date every 1 hour
-        setInterval(displayCurrentDateTime, 1000*60*60*1);       
+        // setInterval(displayCurrentDateTime, 1000*60*60*1);       
     </script>
 
-
     <script>
-        // JavaScript remains unchanged as it uses only basic compatible features
-        var today = new Date();
-        var currentMonth = today.getMonth();
-        var currentYear = today.getFullYear();
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
         function renderCalendar() {
+            var today = new Date();
+            var currentMonth = today.getMonth();
+            var currentYear = today.getFullYear();
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
             var firstDay = new Date(currentYear, currentMonth, 1);
             var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             var startDayOfWeek = firstDay.getDay(); 
 
             var monthYearDisplay = document.getElementById("month-year");
             monthYearDisplay.innerHTML = monthNames[currentMonth] + " " + currentYear;
+            // monthYearDisplay.innerHTML = today.toLocaleTimeString();
 
             var calendarBody = document.getElementById("calendar-body");
             calendarBody.innerHTML = ""; 
@@ -336,7 +341,7 @@
         renderCalendar();
 
         // Update the calendar every 1 hour
-        setInterval(renderCalendar, 1000*60*60*1);
+        // setInterval(renderCalendar, 1000*60*60*1);
     </script>
 
 </body>
