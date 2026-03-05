@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IPTV + YouTube Player with Sidebar + Search + Footer</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      width: 260px;
+      background: #1a1a1a;
+      border-right: 2px solid #000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #searchContainer {
+      padding: 12px;
+      background: #181818;
+      border-bottom: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      color: #eee;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      box-sizing: border-box;
+    }
+
+    #searchBox:focus {
+      border-color: #555;
+      background: #262626;
+    }
+
+    #channelList {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .channel {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #222;
+    }
+
+    .channel:hover {
+      background: #333;
+    }
+
+    .thumb {
+      width: 60px;
+      height: 40px;
+      min-width: 60px;
+      min-height: 40px;
+      max-width: 60px;
+      max-height: 40px;
+      background: #2a2a2a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      margin-right: 10px;
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .thumb:not([src]),
+    .thumb[src=""] {
+      background: #2a2a2a;
+    }
+
+    .thumb:not([src])::before,
+    .thumb[src=""]::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      width: 40px;
+      height: 24px;
+      border: 2px solid #444;
+      border-radius: 3px;
+      opacity: 0.35;
+    }
+
+    .thumb:not([src])::after,
+    .thumb[src=""]::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 26px;
+      width: 8px;
+      height: 4px;
+      background: #444;
+      border-radius: 1px;
+      opacity: 0.35;
+    }
+
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #topbar {
+      padding: 12px;
+      background: #181818;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    #m3uInput {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 15px;
+      color: #eee;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      box-sizing: border-box;
+    }
+
+    #m3uInput:focus {
+      border-color: #555;
+      background: #262626;
+    }
+
+    /* PLAYER WRAPPER WITH RESTORED 16:9 */
+    #playerWrapper {
+      position: relative;
+      flex: 1;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      margin: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    #playerWrapper iframe,
+    #playerWrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: contain;
+      background: #000;
+    }
+
+    /* NEW 3-LINE FOOTER */
+    #footer {
+      height: 74px;
+      background: #181818;
+      border-top: 1px solid #000;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.4;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .scroll-line {
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .scroll-line::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scroll-line {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="sidebar">
+    <div id="searchContainer">
+      <input id="searchBox" type="text" placeholder="Search channels...">
+    </div>
+    <div id="channelList"></div>
+  </div>
+
+  <div id="main">
+    <div id="topbar">
+      <input id="m3uInput" type="text"
+        placeholder="Enter M3U URL..."
+        value="MyTube.list">
+    </div>
+
+    <div id="playerWrapper"></div>
+
+    <div id="footer">
+      <div id="footer-title"><strong>None</strong></div>
+      <div id="footer-url" class="scroll-line">None</div>
+      <div id="footer-stats" class="scroll-line">
+        Resolution: N/A | Bitrate: N/A | Level: N/A | Buffer: N/A | EPG: N/A
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <script>
+    let allChannels = [];
+    let hls = null;
+    let isHls = false;
+    let isYoutube = false;
+
+    const titleEl = document.getElementById("footer-title");
+    const urlEl = document.getElementById("footer-url");
+    const statsEl = document.getElementById("footer-stats");
+
+    const YOUTUBE_CHANNELS = [
+      {
+        name: "YouTube: Video 1",
+        url: "https://www.youtube.com/embed/AYdQUS7jfPA",
+        thumb: "https://img.youtube.com/vi/AYdQUS7jfPA/hqdefault.jpg"
+      },
+      {
+        name: "YouTube: Video 2",
+        url: "https://www.youtube.com/embed/ssix9qlNiTQ",
+        thumb: "https://img.youtube.com/vi/ssix9qlNiTQ/hqdefault.jpg"
+      }
+    ];
+
+    // Load playlist when pressing Enter in M3U box
+    document.getElementById("m3uInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const url = e.target.value.trim();
+        if (url) loadPlaylist(url);
+      }
+    });
+
+    // Live search filter
+    document.getElementById("searchBox").addEventListener("input", () => {
+      const term = document.getElementById("searchBox").value.toLowerCase();
+      const filtered = allChannels.filter(ch =>
+        ch.name.toLowerCase().includes(term)
+      );
+      renderChannelList(filtered);
+    });
+
+    async function loadPlaylist(url) {
+      const res = await fetch(url);
+      const text = await res.text();
+      const lines = text.split(/\r?\n/);
+
+      const channels = [];
+      let currentName = "Unknown Channel";
+      let currentLogo = "";
+
+      for (let line of lines) {
+        line = line.trim();
+
+        if (line.startsWith("#EXTINF")) {
+          // Name is everything after the LAST comma
+          const lastCommaIndex = line.lastIndexOf(",");
+          if (lastCommaIndex !== -1 && lastCommaIndex < line.length - 1) {
+            currentName = line.substring(lastCommaIndex + 1).trim();
+          } else {
+            currentName = "Unnamed Channel";
+          }
+
+          // Extract tvg-logo if present
+          const logoMatch = line.match(/tvg-logo="([^"]+)"/);
+          currentLogo = logoMatch ? logoMatch[1] : "";
+        } 
+        else if (line && !line.startsWith("#")) {
+          channels.push({
+            name: currentName,
+            url: line,
+            thumb: currentLogo
+          });
+        }
+      }
+
+      channels.push(...YOUTUBE_CHANNELS);
+
+      allChannels = channels;
+      renderChannelList(allChannels);
+      if (allChannels.length > 0) {
+        playChannel(allChannels[0]);
+      }
+    }
+
+    function renderChannelList(channels) {
+      const list = document.getElementById("channelList");
+      list.innerHTML = "";
+
+      channels.forEach((ch) => {
+        const div = document.createElement("div");
+        div.className = "channel";
+
+        div.innerHTML = `
+          <img class="thumb" src="${ch.thumb || ''}" alt="">
+          <span>${ch.name}</span>
+        `;
+
+        div.addEventListener("click", () => playChannel(ch));
+        list.appendChild(div);
+      });
+    }
+
+    function playChannel(channel) {
+      const wrapper = document.getElementById("playerWrapper");
+      wrapper.innerHTML = "";
+
+      titleEl.innerHTML = "<strong>" + channel.name + "</strong>";
+      urlEl.textContent = channel.url;
+
+      isYoutube = channel.url.includes("youtube.com/embed");
+      isHls = channel.url.endsWith(".m3u8");
+
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      if (isYoutube) {
+        const iframe = document.createElement("iframe");
+        iframe.src = channel.url;
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        wrapper.appendChild(iframe);
+        statsEl.textContent =
+          "Resolution: N/A | Bitrate: N/A | Level: N/A | Buffer: N/A | EPG: N/A";
+        return;
+      }
+
+      const video = document.createElement("video");
+      video.controls = true;
+      wrapper.appendChild(video);
+
+      if (Hls.isSupported() && isHls) {
+        hls = new Hls({
+          maxBufferLength: 30,
+          maxMaxBufferLength: 60
+        });
+        hls.loadSource(channel.url);
+        hls.attachMedia(video);
+        // REQUIRED for HLS autoplay
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+      } else {
+        video.src = channel.url;
+        // REQUIRED for non-HLS autoplay
+        video.play().catch(() => {});
+      }
+    }
+
+    function updateStats() {
+      if (isYoutube) {
+        statsEl.textContent =
+          "Resolution: N/A | Bitrate: N/A | Level: N/A | Buffer: N/A | EPG: N/A";
+        return;
+      }
+
+      const video = document.querySelector("#playerWrapper video");
+      if (!video) return;
+
+      const width = video.videoWidth || 0;
+      const height = video.videoHeight || 0;
+      const resolution = width && height ? `${width}×${height}` : "N/A";
+
+      let bitrate = "N/A";
+      let level = "N/A";
+      let buffer = "N/A";
+
+      if (hls && hls.levels && hls.currentLevel >= 0) {
+        const lvl = hls.levels[hls.currentLevel];
+        bitrate = lvl.bitrate ? Math.round(lvl.bitrate / 1000) + " kbps" : "N/A";
+        level = hls.currentLevel;
+      }
+
+      if (video.buffered && video.buffered.length) {
+        buffer = (
+          video.buffered.end(video.buffered.length - 1) - video.currentTime
+        ).toFixed(1) + "s";
+      }
+
+      statsEl.textContent =
+        `Resolution: ${resolution} | Bitrate: ${bitrate} | Level: ${level} | Buffer: ${buffer} | EPG: N/A`;
+    }
+
+    setInterval(updateStats, 1000);
+
+    loadPlaylist(document.getElementById("m3uInput").value);
+  </script>
+
+</body>
+</html>
